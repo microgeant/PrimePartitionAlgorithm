@@ -1,2 +1,2 @@
-# PrimePartitionAlgorithm
-A partition-based algorithm for computing prime numbers
+# Prime Partition Algorithm
+A partition-based algorithm for constructively computing prime numbers
