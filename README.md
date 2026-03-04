@@ -4,9 +4,9 @@ A partition-based algorithm for computing prime numbers
 
 ## Overview
 
-Prime generation algorithms typically fall into two categories: sieving methods that systematically eliminate composites, and primality testing of structured sequences. We introduce a third, lateral approach: partition-based constructive generation through algebraic operations on binary set partitions.
+Prime generation algorithms typically fall into two categories: sieving methods (the sieve of Eratosthenes) that systematically eliminate composites, and primality testing of structured sequences. We introduce a third, lateral approach: partition-based constructive generation through algebraic operations on binary set partitions.
 
-If I had to compare the method, I would say that in essence it is a bit similar to the [chaos game](https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle#Chaos_game) of the [Sierpiński triangle](https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle), where prime numbers are analogous to the computed points that draws the (ever-denser) triangles in the pattern, while the composites are anologous to the (empty) triangular areas we never reach while playing the game to "infinity's end."
+If we had to compare the method, we could say that, in essence, it is a bit similar to the [chaos game](https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle#Chaos_game) of the [Sierpiński triangle](https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle), where prime numbers are analogous to the computed points that draws the (ever-denser) triangles in the pattern, while the composites are anologous to the (empty) triangular areas we never reach while playing the game to "infinity's end."
 
 ## The Algorithm
 
@@ -24,8 +24,10 @@ Starting with a seed set (e.g., `{1, 2}`):
 
 - [x] Add Kotlin Implementation
 - [x] Add Python Implementation
-- [ ] Add C Implementation
+- [x] Add C Implementation
 - [ ] Add Haskell Implementation
 - [ ] Add Scheme Implementation
 - [ ] Add Rust Implementation
 - [ ] Add Julia Implementation
+- [ ] Add Zig Implementation
+- [ ] Add Explanation
