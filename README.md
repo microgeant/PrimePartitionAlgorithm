@@ -1,6 +1,6 @@
 # Prime Partition Algorithm
 
-A partition-based algorithm for computing prime numbers
+A novel partition-based algorithm for computing prime numbers
 
 ## Overview
 
@@ -25,7 +25,7 @@ Starting with a seed set (e.g., `{1, 2}`):
 - [x] Add Kotlin Implementation
 - [x] Add Python Implementation
 - [x] Add C Implementation
-- [ ] Add Haskell Implementation
+- [x] Add Haskell Implementation
 - [ ] Add Scheme Implementation
 - [ ] Add Rust Implementation
 - [ ] Add Julia Implementation
