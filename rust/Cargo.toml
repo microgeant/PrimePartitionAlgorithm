@@ -1,0 +1,19 @@
+[package]
+name = "prime_partition"
+version = "1.0.0"
+edition = "2021"
+authors = ["Bruno Kongawi"]
+description = "Prime Partition Algorithm - Binary partition-based prime generation"
+license = "MIT"
+
+[[bin]]
+name = "prime_partition"
+path = "prime_partition.rs"
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
