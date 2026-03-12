@@ -1,6 +1,6 @@
 # Prime Partition Algorithm
 
-A partition-based algorithm for computing prime numbers
+A partition-based algorithm for generating prime numbers
 
 ## Overview
 

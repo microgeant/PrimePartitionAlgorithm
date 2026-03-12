@@ -2,7 +2,7 @@
 name = "prime_partition"
 version = "1.0.0"
 edition = "2021"
-authors = ["Bruno Kongawi"]
+authors = ["Microgeant"]
 description = "Prime Partition Algorithm - Binary partition-based prime generation"
 license = "MIT"
 
