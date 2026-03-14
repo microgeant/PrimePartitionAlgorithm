@@ -28,6 +28,6 @@ Starting with a seed set (e.g., `{1, 2}`):
 - [x] Add Haskell Implementation
 - [x] Add Scheme Implementation
 - [x] Add Rust Implementation
-- [ ] Add Julia Implementation
+- [x] Add Julia Implementation
 - [ ] Add Zig Implementation
 - [ ] Add Explanation
