@@ -45,7 +45,7 @@ chmod +x prime_partition.jl
 === JULIA VERSION ===
 Hello primes: [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, ...]
 Total discovered: 64
-Found composites: []
+Found composites: Int64[]
 ```
 
 ## Algorithm Parameters
