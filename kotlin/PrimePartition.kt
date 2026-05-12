@@ -75,7 +75,7 @@ object PrimePartition {
                     val rightProd = productPow(right, rightExps)
 
                     for (candidate in listOf(leftProd + rightProd, abs(leftProd - rightProd))) {
-                        if (candidate >= minR && candidate <= maxR && isPrime(candidate)) {
+                        if (candidate >= minR && candidate <= maxR) {
                             yield(candidate)
                         }
                     }
