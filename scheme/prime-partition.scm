@@ -54,8 +54,7 @@
                          [candidate (in-list (list (+ left-prod right-prod)
                                                   (abs (- left-prod right-prod))))]
                          #:when (and (> candidate max-prime) 
-                                   (< candidate (* max-prime max-prime))
-                                   (is-prime? candidate)))
+                                   (< candidate (* max-prime max-prime))))
                 candidate)])
         (sort (remove-duplicates candidates) <))))
 
