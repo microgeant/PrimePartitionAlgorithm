@@ -14,7 +14,7 @@ This is the Rust implementation of the Prime Partition Algorithm.
 #### Using Homebrew
 
 ```bash
-brew install rust
+brew install zig
 ```
 
 ### Compile and Run
