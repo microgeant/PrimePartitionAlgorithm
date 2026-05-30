@@ -214,7 +214,7 @@ fn computePrimes(allocator: Allocator, seeds: *const ArrayList(u64)) !ArrayList(
     defer prime_set.deinit();
 
     for (candidates.items) |candidate| {
-        if (candidate >= range_start and candidate <= range_end and isPrime(candidate)) {
+        if (candidate >= range_start and candidate <= range_end) {
             try prime_set.put(candidate, {});
         }
     }
