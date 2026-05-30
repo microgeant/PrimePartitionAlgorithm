@@ -296,9 +296,7 @@ static Array* compute_primes(const Array *seeds) {
     
     for (size_t i = 0; i < candidates->size; i++) {
         uint64_t candidate = candidates->data[i];
-        if (is_prime(candidate)) {
-            hashset_insert(prime_set, candidate);
-        }
+        hashset_insert(prime_set, candidate);
     }
     
     array_free(candidates);

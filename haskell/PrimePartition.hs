@@ -47,7 +47,6 @@ computePrimesOpt seeds
            , let rightProd = product $ zipWith (^) right rightExps
            , candidate <- [leftProd + rightProd, abs (leftProd - rightProd)]
            , candidate > maxPrime && candidate < maxPrime * maxPrime
-           , isPrimeOpt candidate
            ]
 
 -- OPTIMIZED: Use Set operations for partitioning
