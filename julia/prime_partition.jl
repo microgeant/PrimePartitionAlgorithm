@@ -163,8 +163,7 @@ function compute_primes(seeds::Vector{Int64}, max_exponent::Int=2)::Vector{Int64
     
     # Filter and deduplicate
     filtered = filter(c -> range_start ≤ c ≤ range_end, candidates)
-    unique_candidates = unique(filtered)
-    primes = filter(is_prime, unique_candidates)
+    primes = unique(filtered)
     
     return sort(primes)
 end

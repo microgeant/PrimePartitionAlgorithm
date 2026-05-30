@@ -93,7 +93,6 @@ fn compute_primes(seeds: &[i64], max_exponent: u32) -> Vec<i64> {
         .filter(|&c| c >= range_start && c <= range_end)
         .collect::<HashSet<_>>()
         .into_iter()
-        .filter(|&c| is_prime(c))
         .collect();
     
     primes.sort_unstable();

@@ -74,7 +74,7 @@ def compute_primes(seeds: List[int], max_exponent: int = 2) -> List[int]:
     # Filter and deduplicate
     primes = sorted(set(
         c for c in candidates
-        if range_start <= c <= range_end and is_prime(c)
+        if range_start <= c <= range_end
     ))
     
     return primes
