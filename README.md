@@ -8,7 +8,7 @@ Prime generation algorithms typically fall into two categories: sieving methods 
 
 If we had to compare the method, we could say that, in essence, it is a bit similar to the [chaos game](https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle#Chaos_game) of the [Sierpiński triangle](https://en.wikipedia.org/wiki/Sierpi%C5%84ski_triangle), where prime numbers are analogous to the computed points (attractors) that draws the (ever-denser) emergent triangles in the self-similar figure while the composites are anologous to the (empty) triangular areas we never reach while playing the game to "infinity's end."
 
-## The Algorithm
+## The Algorithm in a Nutshell
 
 Starting with a seed set (e.g., `{1, 2}`):
 

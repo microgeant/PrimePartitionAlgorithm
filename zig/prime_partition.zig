@@ -5,8 +5,8 @@ const Allocator = std.mem.Allocator;
 /// Zig implementation of Prime Partition Algorithm
 
 pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
+    var gpa: std.heap.DebugAllocator(.{}) = .init;
+    defer std.debug.assert(gpa.deinit() == .ok);
     const allocator = gpa.allocator();
 
     std.debug.print("=== ZIG VERSION ===\n", .{});
@@ -161,15 +161,15 @@ fn computePrimes(allocator: Allocator, seeds: *const ArrayList(u64)) !ArrayList(
         }
         partitions.deinit(allocator);
     }
+    var exps = try exponentCombinations(allocator, seeds.items.len, max_exponent);
+    defer {
+        for (exps.items) |*exp| {
+            exp.deinit(allocator);
+        }
+        exps.deinit(allocator);
+    }
 
     for (partitions.items) |partition| {
-        var exps = try exponentCombinations(allocator, seeds.items.len, max_exponent);
-        defer {
-            for (exps.items) |*exp| {
-                exp.deinit(allocator);
-            }
-            exps.deinit(allocator);
-        }
 
         for (exps.items) |exp| {
             const left_exps = exp.items[0..partition.left.items.len];
