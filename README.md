@@ -4,9 +4,11 @@ A partition-based algorithm for generating prime numbers
 
 ## Overview
 
-Prime generation algorithms typically fall into two categories: sieving methods (e.g. the classic [sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)) that systematically and exhaustively eliminate composites, and primality testing of structured sequences. We introduce a third, lateral approach: partition-based constructive generation through algebraic operations on binary set partitions.
+Prime generation algorithms typically fall into two categories: sieving methods (e.g. the classic [sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)) that systematically eliminate composites, and primality testing of structured sequences. We introduce a third, lateral approach: partition-based constructive generation through algebraic operations on binary set partitions.
 
 This was originally published [here](https://github.com/EtherBit/A-Most-Curious-Algorithm) and [here](https://github.com/EtherBit/On-Immeasurable-Magnitudes)
+
+A formal prepint has been publised on [Zenodo](https://zenodo.org/records/20727496)
 
 ## The Algorithm in a Nutshell
 
@@ -30,4 +32,4 @@ Starting with a seed set (e.g., `{1, 2}`):
 - [x] Add Rust Implementation
 - [x] Add Julia Implementation
 - [x] Add Zig Implementation
-- [ ] Add Explanation
+- [x] Add Explanation
