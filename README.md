@@ -22,6 +22,8 @@ Starting with a seed set (e.g., `{1, 2}`):
 6. **Grows** the seed set with newly discovered primes
 7. **Repeats** for multiple iterations
 
+![Demo](publication/demo/demo.gif)
+
 ## Next Steps
 
 - [x] Add Kotlin Implementation
