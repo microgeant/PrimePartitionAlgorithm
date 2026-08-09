@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the Rust implementation of the Prime Partition Algorithm.
+This is the Zig implementation of the Prime Partition Algorithm.
 
 ## Prerequisites
 
