@@ -35,4 +35,4 @@ Starting with a seed set (e.g., `{1, 2}`):
 - [x] Add Julia Implementation
 - [x] Add Zig Implementation
 - [x] Add Jai Implementation
-- [x] Add Explanation
+- [x] Add Explanation (preprint paper)
