@@ -68,15 +68,18 @@ def main():
     max_iterations = 5
     current = [1, 2]
     acc_primes = []
+    pending = set()  # discovered-but-not-yet-seeded values, accumulated across iterations
 
     for i in range(1, max_iterations + 1):
         found = compute_primes(current, current_max_exp)
         current_max_exp += 1
         distinct_found = sorted(set(found))
         current_set = set(current)
-        diff = [x for x in distinct_found if x not in current_set]
-        if diff:
-            current = current + [min(diff)]
+        pending.update(x for x in distinct_found if x not in current_set)
+        if pending:
+            next_seed = min(pending)
+            pending.discard(next_seed)
+            current = current + [next_seed]
         acc_primes.extend(distinct_found)
 
     all_primes = sorted(set([2] + acc_primes))
