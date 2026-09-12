@@ -77,14 +77,19 @@ fun main() {
     val maxIterations = 5
     var current = listOf(BigInteger.ONE, BigInteger.valueOf(2))
     var accPrimes = emptyList<BigInteger>()
+    val pending = sortedSetOf<BigInteger>() // discovered-but-not-yet-seeded values, accumulated across iterations
 
     for (i in 1..maxIterations) {
         val found = computePrimes(current, currentMaxExp++).toList()
         val distinctFound = found.sorted().distinct()
 
         val currentSet = current.toSet()
-        val diff = distinctFound.filter { it !in currentSet }
-        val next = if (diff.isEmpty()) current else current + diff.min()
+        pending.addAll(distinctFound.filter { it !in currentSet })
+        val next = if (pending.isEmpty()) current else {
+            val nextSeed = pending.first()
+            pending.remove(nextSeed)
+            current + nextSeed
+        }
 
         accPrimes = accPrimes + distinctFound
         current = next
