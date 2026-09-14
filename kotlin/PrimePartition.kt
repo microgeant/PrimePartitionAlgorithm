@@ -56,6 +56,15 @@ fun runAlgorithm(iterations: Int, initial: List<Long>): Pair<List<Long>, Map<Lon
 
 /**
  * Compute all primes from the current seed set
+ *
+ * WARNING: the exponent bound below (2, in exponentCombinations) is
+ * fixed for a fast, easy-to-read demo. Raising the iteration count
+ * well beyond what's used in main() without also raising this bound
+ * can break the algorithm's completeness guarantees (candidates simply
+ * stop landing in the required window). For the corrected, complete
+ * version with an adaptive exponent schedule, see
+ * publication/PrimeSynthesis.kt and the full paper
+ * "A Useless Recipe for Primes.pdf" in publication/.
  */
 fun computePrimes(seeds: List<Long>): Sequence<Long> {
     if (seeds.isEmpty()) return emptySequence()

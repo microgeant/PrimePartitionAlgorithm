@@ -44,6 +44,13 @@ def run_algorithm(iterations: int, initial: List[int]) -> Tuple[List[int], Dict[
     return acc_primes, dict(acc_counts)
 
 
+# WARNING: max_exponent is fixed at 2 here for a fast, easy-to-read demo.
+# Raising `iterations` well beyond what's used in main() without also
+# raising this bound can break the algorithm's completeness guarantees
+# (candidates simply stop landing in the required window). For the
+# corrected, complete version with an adaptive exponent schedule, see
+# publication/prime_synthesis.py and the full paper
+# "A Useless Recipe for Primes.pdf" in publication/.
 def compute_primes(seeds: List[int], max_exponent: int = 2) -> List[int]:
     """Generate and filter prime candidates from seed set."""
     if not seeds:

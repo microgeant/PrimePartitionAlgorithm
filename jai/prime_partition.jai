@@ -138,6 +138,14 @@ compute_primes :: (seeds: [] s64) -> [..] s64 {
             e_state.left = left;
             e_state.right = right;
 
+            // WARNING: the exponent bound (2) is fixed here for a fast,
+            // easy-to-read demo. Raising the iteration count well
+            // beyond the default without also raising this bound can
+            // break the algorithm's completeness guarantees (candidates
+            // simply stop landing in the required window). For the
+            // corrected, complete version with an adaptive exponent
+            // schedule, see publication/prime_synthesis.py and the
+            // full paper "A Useless Recipe for Primes.pdf" in publication/.
             generate_exponent_combinations(s.seeds.count, 2, *e_state, (exps: [] s64, e_data: *void) {
                 es := cast(*Exp_State) e_data;
                 

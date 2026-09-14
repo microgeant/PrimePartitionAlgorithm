@@ -210,6 +210,13 @@ static Array* exponent_combinations(size_t size, uint64_t max_exp) {
 }
 
 static Array* compute_primes(const Array *seeds) {
+    // WARNING: fixed at 2 for a fast, easy-to-read demo. Raising
+    // `iterations` well beyond what's used in main() without also
+    // raising this bound can break the algorithm's completeness
+    // guarantees (candidates simply stop landing in the required
+    // window). For the corrected, complete version with an adaptive
+    // exponent schedule, see publication/prime_synthesis.py and the
+    // full paper "A Useless Recipe for Primes.pdf" in publication/.
     const uint64_t max_exponent = 2;
     
     if (seeds->size == 0) {

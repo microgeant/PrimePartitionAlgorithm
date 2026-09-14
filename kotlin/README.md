@@ -44,3 +44,5 @@ Found composites: []
 - **Iterations**: 10
 - **Max exponent**: 2
 
+> **Note:** the max exponent is fixed at 2 here for a fast demo. Raising **Iterations** well beyond 10 without also raising this bound can break the algorithm's completeness guarantees. See [`publication/`](../publication) for the corrected, complete version (with an adaptive exponent schedule) and the full paper, *"A Useless Recipe for Primes."*
+

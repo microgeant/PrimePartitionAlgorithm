@@ -134,6 +134,14 @@ end
 
 Generate and filter prime candidates from seed set using binary partitions
 and powered products.
+
+WARNING: `max_exponent` defaults to 2 here for a fast, easy-to-read demo.
+Raising `iterations` well beyond what's used in main() without also
+raising this bound can break the algorithm's completeness guarantees
+(candidates simply stop landing in the required window). For the
+corrected, complete version with an adaptive exponent schedule, see
+publication/prime_synthesis.py and the full paper
+"A Useless Recipe for Primes.pdf" in publication/.
 """
 function compute_primes(seeds::Vector{Int64}, max_exponent::Int=2)::Vector{Int64}
     if isempty(seeds)
