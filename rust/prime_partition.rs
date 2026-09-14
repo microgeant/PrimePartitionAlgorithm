@@ -26,6 +26,14 @@ fn run_algorithm(iterations: usize, initial: Vec<i64>) -> (Vec<i64>, HashMap<i64
     let mut acc_counts = HashMap::new();
     
     for _ in 0..iterations {
+        // WARNING: the exponent bound (2) is fixed here for a fast,
+        // easy-to-read demo. Raising `iterations` well beyond what's
+        // used above without also raising this bound can break the
+        // algorithm's completeness guarantees (candidates simply stop
+        // landing in the required window). For the corrected, complete
+        // version with an adaptive exponent schedule, see
+        // publication/prime_synthesis.py and the full paper
+        // "A Useless Recipe for Primes.pdf" in publication/.
         let found = compute_primes(&current, 2);
         let distinct: HashSet<i64> = found.iter().cloned().collect();
         

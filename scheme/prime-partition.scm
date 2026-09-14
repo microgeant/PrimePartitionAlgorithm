@@ -32,6 +32,14 @@
                [next-current (if next-prime (append current (list next-prime)) current)])
           (loop (add1 i) next-current (append acc-primes distinct) new-counts)))))
 
+;; WARNING: the exponent bound below (2, in exponent-combinations) is
+;; fixed for a fast, easy-to-read demo. Raising the iteration count
+;; well beyond the default without also raising this bound can break
+;; the algorithm's completeness guarantees (candidates simply stop
+;; landing in the required window). For the corrected, complete
+;; version with an adaptive exponent schedule, see
+;; publication/prime_synthesis.py and the full paper
+;; "A Useless Recipe for Primes.pdf" in publication/.
 ;; Compute all primes from the current seed set
 (define (compute-primes seeds)
   (if (null? seeds)

@@ -140,6 +140,13 @@ fn runAlgorithm(allocator: Allocator, iterations: usize, initial: *const ArrayLi
 }
 
 fn computePrimes(allocator: Allocator, seeds: *const ArrayList(u64)) !ArrayList(u64) {
+    // WARNING: fixed at 2 for a fast, easy-to-read demo. Raising the
+    // iteration count well beyond the default without also raising
+    // this bound can break the algorithm's completeness guarantees
+    // (candidates simply stop landing in the required window). For
+    // the corrected, complete version with an adaptive exponent
+    // schedule, see publication/prime_synthesis.py and the full paper
+    // "A Useless Recipe for Primes.pdf" in publication/.
     const max_exponent: u64 = 2;
 
     if (seeds.items.len == 0) {
