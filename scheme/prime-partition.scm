@@ -98,6 +98,9 @@
                 (cons exp combo)))))))
 
 ;; Optimized primality test
+;; Note that this primality test is only run to validate the promise of
+;; the prime partition algorithm (i.e., did we stumble upon composites?).
+;; We NEVER use this to find primes.
 (define (is-prime? n)
   (cond
     [(<= n 1) #f]

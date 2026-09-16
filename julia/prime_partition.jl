@@ -35,6 +35,10 @@ end
 Optimized primality test using trial division up to √n.
 Only tests odd divisors after checking 2.
 Time complexity: O(√n)
+
+Note that this primality test is only run to validate the promise of the
+prime partition algorithm (i.e., did we stumble upon composites?). We
+NEVER use this to find primes.
 """
 function is_prime(n::Int64)::Bool
     if n ≤ 1

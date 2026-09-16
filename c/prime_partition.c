@@ -125,6 +125,9 @@ static inline __uint128_t fast_pow_128(uint64_t base, uint64_t exp) {
     }
 }
 
+// Note that this primality test is only run to validate the promise of
+// the prime partition algorithm (i.e., did we stumble upon composites?).
+// We NEVER use this to find primes.
 static inline bool is_prime(uint64_t n) {
     if (n <= 1) return false;
     if (n == 2) return true;

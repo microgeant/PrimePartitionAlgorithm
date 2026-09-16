@@ -197,6 +197,10 @@ fn fast_pow(base: i64, exp: u32) -> Option<i64> {
 }
 
 /// Optimized primality test
+///
+/// Note that this primality test is only run to validate the promise of
+/// the prime partition algorithm (i.e., did we stumble upon composites?).
+/// We NEVER use this to find primes.
 fn is_prime(n: i64) -> bool {
     if n <= 1 {
         return false;

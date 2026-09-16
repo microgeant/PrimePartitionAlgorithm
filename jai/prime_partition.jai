@@ -5,6 +5,9 @@
 
 // --- Math Utilities ---
 
+// Note that this primality test is only run to validate the promise of
+// the prime partition algorithm (i.e., did we stumble upon composites?).
+// We NEVER use this to find primes.
 is_prime :: (n: s64) -> bool {
     if n < 2 return false;
     if n == 2 || n == 3 return true;

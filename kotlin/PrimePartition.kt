@@ -168,6 +168,8 @@ fun fastPow(base: Long, exp: Int): Long {
 
 /**
  * Optimized primality test (6k±1 pattern)
+ * Note that this primality test is only run to validate the promise of the prime partition algorithm
+ * (i.e., did we stumble upon composites?). We NEVER use this to find primes
  */
 fun isPrime(n: Long): Boolean {
     if (n < 2) return false

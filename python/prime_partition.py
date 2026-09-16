@@ -122,6 +122,9 @@ def fast_pow(base: int, exp: int) -> int:
         return base * fast_pow(base, exp - 1)
 
 
+# Note that this primality test is only run to validate the promise of the
+# prime partition algorithm (i.e., did we stumble upon composites?). We
+# NEVER use this to find primes.
 def is_prime(n: int) -> bool:
     """Optimized primality test."""
     if n <= 1:

@@ -343,6 +343,9 @@ fn fastPow(base: u64, exp: u64) u64 {
     }
 }
 
+// Note that this primality test is only run to validate the promise of
+// the prime partition algorithm (i.e., did we stumble upon composites?).
+// We NEVER use this to find primes.
 fn isPrime(n: u64) bool {
     if (n <= 1) return false;
     if (n == 2) return true;

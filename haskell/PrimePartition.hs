@@ -81,6 +81,9 @@ exponentCombinations :: Int -> Int -> [[Int]]
 exponentCombinations n maxE = replicateM n [1..maxE]
 
 -- OPTIMIZED: 6k±1 wheel factorization
+-- Note that this primality test is only run to validate the promise of
+-- the prime partition algorithm (i.e., did we stumble upon composites?).
+-- We NEVER use this to find primes.
 isPrimeOpt :: Integer -> Bool
 isPrimeOpt n
     | n <= 1 = False
