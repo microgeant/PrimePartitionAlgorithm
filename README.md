@@ -32,6 +32,8 @@ Starting with a seed set (e.g., `{1, 2}`):
 
 Each iteration reaches further into the number line — new primes born from the arithmetic of the ones before them.
 
+![Recipe](publication/demo/recipe.gif)
+
 ## Quick Start
 
 No dependencies required — grab the Python version and run it:
@@ -82,6 +84,8 @@ PrimePartitionAlgorithm/
 ```
 
 ## Performance & Limitations
+
+![Complexity](publication/demo/complexity.gif)
 
 This is a constructive curiosity, not a practical prime generator. Each iteration partitions a seed set of size `n`, raises elements to exponents up to `E`, and filters every combination for primality — roughly `2(2E)^n` candidates per step, giving a cumulative cost of `O(N · (2E)^N)` over `N` iterations. Every newly discovered prime makes the next one exponentially more expensive to find (the paper's "Price of Magic").
 
