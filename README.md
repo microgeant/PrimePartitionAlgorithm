@@ -81,6 +81,24 @@ PrimePartitionAlgorithm/
 └── LICENSE
 ```
 
+## Performance & Limitations
+
+This is a constructive curiosity, not a practical prime generator. Each iteration partitions a seed set of size `n`, raises elements to exponents up to `E`, and filters every combination for primality — roughly `2(2E)^n` candidates per step, giving a cumulative cost of `O(N · (2E)^N)` over `N` iterations. Every newly discovered prime makes the next one exponentially more expensive to find (the paper's "Price of Magic").
+
+In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) (the complete version, with an adaptive exponent schedule) takes **~21 minutes** across 7 iterations to synthesize every prime up to **283** — over 20 of those minutes in the last iteration alone. A Sieve of Eratosthenes finds the same primes in well under a millisecond. Full numbers in [`publication/prime_synthesis_results.md`](publication/prime_synthesis_results.md).
+
+| | Prime Partition Algorithm | Sieve of Eratosthenes |
+|---|---|---|
+| Complexity | `O(N · (2E)^N)` — exponential | `O(n log log n)` — near-linear |
+| Primes up to 283 | ~21 minutes | microseconds |
+| Good for | studying the structure of primes | actually generating primes |
+
+The sieve wins on every practical axis, and it isn't close — see *"The Combinatorial Explosion: An Exponential Barrier"* in [the preprint](publication/A%20Useless%20Recipe%20for%20Primes.pdf).
+
+**A sharper limitation:** the per-language demos in this repo hard-code `max_exponent = 2` for speed and readability (see each language's README), but that bound is exactly what the completeness guarantee depends on. Capped too low, later iterations can silently find *zero* primes instead of erroring — a 13-iteration run capped at `max_exp=2` finds 0 new primes at iteration 12 (see [`publication/prime_synthesis_results_capped2_13iter.md`](publication/prime_synthesis_results_capped2_13iter.md)). The adaptive-schedule version in [`publication/`](publication) avoids this.
+
+**Ongoing work:** I've experimented with pruning the exponent search to just the subset likely to land inside the target window, instead of sweeping the full `1..E` range, to cut down on wasted candidates. The early results weren't consistent enough to trust yet, so that pruning isn't part of this repo's algorithm — it may show up here once it holds up.
+
 ## Next Steps
 
 - [x] Add Kotlin Implementation
