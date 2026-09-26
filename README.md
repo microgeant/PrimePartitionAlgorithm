@@ -95,7 +95,7 @@ In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) 
 |---|---|---|
 | Complexity | `O(N · (2E)^N)` — exponential | `O(n log log n)` — near-linear |
 | Primes up to 283 | ~21 minutes | microseconds |
-| Good for | studying the structure of primes | actually generating primes |
+| Good for | studying the structure of primes (e.g., how primes are born from their predecessors) | generating primes efficiently |
 
 The sieve wins on every practical axis, and it isn't close — see *"The Combinatorial Explosion: An Exponential Barrier"* in [the preprint](publication/A%20Useless%20Recipe%20for%20Primes.pdf).
 
