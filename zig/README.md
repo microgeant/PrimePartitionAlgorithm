@@ -6,7 +6,7 @@ This is the Zig implementation of the Prime Partition Algorithm.
 
 ## Prerequisites
 
-- Zig compiler (tested with Zig 0.11.0 or later)
+- Zig compiler (tested with Zig 0.16.0)
 - Download from: https://ziglang.org/download/
 
 ## Building and Running
