@@ -12,12 +12,17 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
-    // Create the executable
-    const exe = b.addExecutable(.{
-        .name = "prime_partition",
+    // Create the root module shared by the executable and the tests
+    const root_module = b.createModule(.{
         .root_source_file = b.path("prime_partition.zig"),
         .target = target,
         .optimize = optimize,
+    });
+
+    // Create the executable
+    const exe = b.addExecutable(.{
+        .name = "prime_partition",
+        .root_module = root_module,
     });
 
     // This declares intent for the executable to be installed into the
@@ -48,9 +53,7 @@ pub fn build(b: *std.Build) void {
 
     // Unit tests (if we add them later)
     const unit_tests = b.addTest(.{
-        .root_source_file = b.path("prime_partition.zig"),
-        .target = target,
-        .optimize = optimize,
+        .root_module = root_module,
     });
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
