@@ -34,6 +34,18 @@ Each iteration reaches further into the number line — new primes born from the
 
 ![Recipe](publication/demo/recipe.gif)
 
+### The Arithmetic Fulcrum
+
+Step 4 of the algorithm (in the paper) has a nice geometric reading, which I call an *arithmetic fulcrum*. Each partition produces two products: the larger one is a fulcrum on the number line, and the smaller one is its reach. The sum and difference land the same distance away on each side of it. For example, with the seed set `{1, 2, 3, 5, 7}`, the partition `({1, 2, 5}, {3, 7})` gives products 10 and 21. That puts a fulcrum at 21 with a reach of ±10, which balances two primes at once: **11** and **31**.
+
+Several fulcrums work together to fill the quadratic window `(7, 49)`, and some primes get found more than once (over-determined). Here, 37 comes from both the fulcrum at 30 (reach ±7) and the fulcrum at 42 (reach ±5).
+
+![Fulcrums](publication/demo/fulcrums.gif)
+
+For a longer view, this Manim animation follows the fulcrums across the first 5 iterations as the window keeps growing:
+
+![Fulcrums On The Number Line](publication/demo/NumberLineMagnification_Fulcrums.gif)
+
 ## Quick Start
 
 No dependencies required — grab the Python version and run it:
