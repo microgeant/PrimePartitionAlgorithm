@@ -119,6 +119,8 @@ The sieve wins on every practical axis, and it isn't close — see *"The Combina
 
 **Ongoing work:** I've experimented with pruning the exponent search to just the subset likely to land inside the target window, instead of sweeping the full `1..E` range, to cut down on wasted candidates. The early results weren't consistent enough to trust yet, so that pruning isn't part of this repo's algorithm — it may show up here once it holds up.
 
+One simple way of reducing computations (present in early rough versions) is to apply the exponents to only one subset (of the binary partitions). 
+
 ## Next Steps
 
 - [x] Add Kotlin Implementation
