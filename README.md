@@ -4,11 +4,11 @@
 [![Preprint](https://img.shields.io/badge/preprint-Zenodo-blue)](https://zenodo.org/records/20727496)
 [![Languages](https://img.shields.io/badge/implementations-9-brightgreen)](#implementations)
 
-**Grow prime numbers instead of sieving for them.**
+**Grow/synthesize prime numbers instead of sieving for them.**
 
-Every prime generator you've used works by elimination: list a range of integers, cross out the composites, keep what's left. The Prime Partition Algorithm flips that around. Starting from the seed set `{1, 2}`, it *constructs* new primes algebraically — partitioning the set, exponentiating and multiplying within each half, then combining the results — and lets the set of known primes grow itself, iteration by iteration.
+Every prime generator you've used works by elimination: list a range of integers, cross out the composites, keep what's left. The Prime Partition Algorithm flips that around. Starting from the foundational seed set `{1, 2}`, it *constructs* new primes algebraically — partitioning the set, exponentiating and multiplying within each half, then combining the results — and lets the set of known primes grow itself, iteration by iteration.
 
-No sieve. No trial range. Just a seed and a few algebraic operations.
+No sieve. No trial range. Just a seed set and a few algebraic operations (combined with a little bit of Euclidean wisdom).
 
 ![Demo](publication/demo/demo.gif)
 
@@ -16,7 +16,7 @@ No sieve. No trial range. Just a seed and a few algebraic operations.
 
 Prime generation algorithms typically fall into two categories: sieving methods (e.g. the classic [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)) that systematically eliminate composites, and primality testing of structured sequences. This project introduces a third, lateral approach: **partition-based constructive generation** through algebraic operations on binary set partitions.
 
-This was originally published [here](https://github.com/EtherBit/A-Most-Curious-Algorithm) and [here](https://github.com/EtherBit/On-Immeasurable-Magnitudes). A formal preprint, *"A Useless Recipe for Primes,"* is available on [Zenodo](https://zenodo.org/records/20727496) and in this repo under [`publication/`](publication).
+A rough version of this technique was originally published [here](https://github.com/EtherBit/A-Most-Curious-Algorithm) and [here](https://github.com/EtherBit/On-Immeasurable-Magnitudes). A formal preprint, *"A Useless Recipe for Primes,"* is available on [Zenodo](https://zenodo.org/records/20727496) and in this repo under [`publication/`](publication).
 
 ## The Algorithm in a Nutshell
 
@@ -30,7 +30,7 @@ Starting with a seed set (e.g., `{1, 2}`):
 6. **Grow** the seed set with newly discovered primes
 7. **Repeat** for multiple iterations
 
-Each iteration reaches further into the number line — new primes born from the arithmetic of the ones before them.
+Each iteration reaches further into the number line — new primes sprouting from the arithmetic of the ones before them.
 
 ![Recipe](publication/demo/recipe.gif)
 
@@ -42,7 +42,7 @@ Several fulcrums work together to fill the quadratic window `(7, 49)`, and some 
 
 ![Fulcrums](publication/demo/fulcrums.gif)
 
-For a longer view, this Manim animation follows the fulcrums across the first 5 iterations as the window keeps growing:
+For a longer view, there is a Manim animation (under publication/demo/NumberLineMagnification.mp4) that follows the fulcrums across the first 5 iterations as the window keeps growing:
 
 ![Fulcrums On The Number Line](publication/demo/NumberLineMagnification_Fulcrums.gif)
 
