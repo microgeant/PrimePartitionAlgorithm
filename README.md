@@ -4,11 +4,11 @@
 [![Preprint](https://img.shields.io/badge/preprint-Zenodo-blue)](https://zenodo.org/records/20727496)
 [![Languages](https://img.shields.io/badge/implementations-9-brightgreen)](#implementations)
 
-**Grow/synthesize prime numbers instead of sieving for them.**
+**Grow prime numbers instead of sieving for them.**
 
-Every prime generator you've used works by elimination: list a range of integers, cross out the composites, keep what's left. The Prime Partition Algorithm flips that around. Starting from the foundational seed set `{1, 2}`, it *constructs* new primes algebraically — partitioning the set, exponentiating and multiplying within each half, then combining the results — and lets the set of known primes grow itself, iteration by iteration.
+Every prime generator you've used works by elimination: list a range of integers, cross out the composites, keep what's left. The Prime Partition Algorithm flips that around. Starting from the seed set `{1, 2}`, it *constructs* new primes algebraically — partitioning the set, exponentiating and multiplying within each half, then combining the results — and lets the set of known primes grow itself, iteration by iteration.
 
-No sieve. No trial range. Just a seed set and a few algebraic operations (combined with a little bit of Euclidean wisdom).
+No sieve. No primality test. Just a seed set, a few algebraic operations, and [one observation from Euclid](#why-no-primality-test).
 
 ![Demo](publication/demo/demo.gif)
 
@@ -26,13 +26,17 @@ Starting with a seed set (e.g., `{1, 2}`):
 2. **Exponentiate** elements (raise to powers 1–E)
 3. **Multiply** within each group to get two products
 4. **Combine** via sum and absolute difference
-5. **Filter** for primes in the range `(max, max²)`
+5. **Keep** candidates in the range `(max, max²)`
 6. **Grow** the seed set with newly discovered primes
 7. **Repeat** for multiple iterations
 
 Each iteration reaches further into the number line — new primes sprouting from the arithmetic of the ones before them.
 
 ![Recipe](publication/demo/recipe.gif)
+
+### Why No Primality Test?
+
+Step 5 only checks the range. It never tests a candidate for primality, and it doesn't need to. This is the same idea as Euclid's proof that there are infinitely many primes. Every prime in the seed set divides exactly one of the two products, so it can't divide their sum or their difference. That means every candidate has no prime factor ≤ `max`. A composite number below `max²` must have a prime factor ≤ `max`, so every candidate inside `(max, max²)` is prime.
 
 ### The Arithmetic Fulcrum
 
@@ -42,7 +46,7 @@ Several fulcrums work together to fill the quadratic window `(7, 49)`, and some 
 
 ![Fulcrums](publication/demo/fulcrums.gif)
 
-For a longer view, there is a Manim animation (under publication/demo/NumberLineMagnification.mp4) that follows the fulcrums across the first 5 iterations as the window keeps growing:
+For a longer view, [this Manim animation](publication/demo/NumberLineMagnification.mp4) follows the fulcrums across the first 5 iterations as the window keeps growing:
 
 ![Fulcrums On The Number Line](publication/demo/NumberLineMagnification_Fulcrums.gif)
 
