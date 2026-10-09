@@ -26,7 +26,7 @@ Starting with a seed set (e.g., `{1, 2}`):
 2. **Exponentiate** elements (raise to powers 1–E)
 3. **Multiply** within each group to get two products
 4. **Combine** via sum and absolute difference
-5. **Keep** candidates in the range `(max, max²)`
+5. **Keep** candidates in the range `(max, max²]`
 6. **Grow** the seed set with newly discovered primes
 7. **Repeat** for multiple iterations
 
@@ -36,13 +36,13 @@ Each iteration reaches further into the number line — new primes sprouting fro
 
 ### Why No Primality Test?
 
-Step 5 only checks the range. It never tests a candidate for primality, and it doesn't need to. This is the same idea as Euclid's proof that there are infinitely many primes. Every prime in the seed set divides exactly one of the two products, so it can't divide their sum or their difference. That means every candidate has no prime factor ≤ `max`. A composite number below `max²` must have a prime factor ≤ `max`, so every candidate inside `(max, max²)` is prime.
+Step 5 only checks the range. It never tests a candidate for primality, and it doesn't need to. This is the same idea as Euclid's proof that there are infinitely many primes. Every prime in the seed set divides exactly one of the two products, so it can't divide their sum or their difference. That means every candidate has no prime factor ≤ `max`. A composite number below `max²` must have a prime factor ≤ `max`, so every candidate inside `(max, max²]` is prime.
 
 ### The Arithmetic Fulcrum
 
 Step 4 of the algorithm (in the paper) has a nice geometric reading, which I call an *arithmetic fulcrum*. Each partition produces two products: the larger one is a fulcrum on the number line, and the smaller one is its reach. The sum and difference land the same distance away on each side of it. For example, with the seed set `{1, 2, 3, 5, 7}`, the partition `({1, 2, 5}, {3, 7})` gives products 10 and 21. That puts a fulcrum at 21 with a reach of ±10, which balances two primes at once: **11** and **31**.
 
-Several fulcrums work together to fill the quadratic window `(7, 49)`, and some primes get found more than once (over-determined). Here, 37 comes from both the fulcrum at 30 (reach ±7) and the fulcrum at 42 (reach ±5).
+Several fulcrums work together to fill the quadratic window `(7, 49]`, and some primes get found more than once (over-determined). Here, 37 comes from both the fulcrum at 30 (reach ±7) and the fulcrum at 42 (reach ±5).
 
 ![Fulcrums](publication/demo/fulcrums.gif)
 
@@ -94,8 +94,10 @@ PrimePartitionAlgorithm/
 ├── publication/
 │   ├── A Useless Recipe for Primes.pdf   # the preprint
 │   ├── demo/                             # demo gif + number line visualization
+│   ├── experiments/                      # left-only exponent variant + results
 │   ├── prime_synthesis.py
-│   └── PrimeSynthesis.kt
+│   ├── PrimeSynthesis.kt
+│   └── prime_synthesis_results*.md       # run reports (adaptive + capped schedules)
 └── LICENSE
 ```
 
@@ -103,19 +105,19 @@ PrimePartitionAlgorithm/
 
 ![Complexity](publication/demo/complexity.gif)
 
-This is a constructive curiosity, not a practical prime generator. Each iteration partitions a seed set of size `n`, raises elements to exponents up to `E`, and filters every combination for primality — roughly `2(2E)^n` candidates per step, giving a cumulative cost of `O(N · (2E)^N)` over `N` iterations. Every newly discovered prime makes the next one exponentially more expensive to find (the paper's "Price of Magic").
+This is a constructive curiosity, not a practical prime generator. Each iteration partitions a seed set of size `n`, raises elements to exponents up to `E`, and filters every combination by range — roughly `2(2E)^n` candidates per step, giving a cumulative cost of `O(N · (2E)^N)` over `N` iterations. Every newly discovered prime makes the next one exponentially more expensive to find (the paper's "Price of Magic").
 
-In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) (the complete version, with an adaptive exponent schedule) takes **~21 minutes** across 7 iterations to synthesize every prime up to **283** — over 20 of those minutes in the last iteration alone. A Sieve of Eratosthenes finds the same primes in well under a millisecond. Full numbers in [`publication/prime_synthesis_results.md`](publication/prime_synthesis_results.md).
+In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) (the full algorithm from the paper's Listing 1: exponents on both subsets, with an uncapped adaptive exponent schedule) takes **~21 minutes** across 7 iterations to synthesize every prime up to **199** (it reaches as high as 283, but misses 211 and 223) — over 20 of those minutes in the last iteration alone. A Sieve of Eratosthenes finds the same primes in well under a millisecond. Full numbers in [`publication/prime_synthesis_results.md`](publication/prime_synthesis_results.md).
 
 | | Prime Partition Algorithm | Sieve of Eratosthenes |
 |---|---|---|
 | Complexity | `O(N · (2E)^N)` — exponential | `O(n log log n)` — near-linear |
-| Primes up to 283 | ~21 minutes | microseconds |
+| Every prime up to 199 | ~21 minutes | microseconds |
 | Good for | studying the structure of primes (e.g., how primes are born from their predecessors) | generating primes efficiently |
 
 The sieve wins on every practical axis, and it isn't close — see *"The Combinatorial Explosion: An Exponential Barrier"* in [the preprint](publication/A%20Useless%20Recipe%20for%20Primes.pdf).
 
-**A sharper limitation:** the per-language demos in this repo hard-code `max_exponent = 2` for speed and readability (see each language's README), but that bound is exactly what the completeness guarantee depends on. Capped too low, later iterations can silently find *zero* primes instead of erroring — a 13-iteration run capped at `max_exp=2` finds 0 new primes at iteration 12 (see [`publication/prime_synthesis_results_capped2_13iter.md`](publication/prime_synthesis_results_capped2_13iter.md)). The adaptive-schedule version in [`publication/`](publication) avoids this.
+**A sharper limitation:** the per-language demos in this repo hard-code `max_exponent = 2` for speed and readability (see each language's README), but that bound is exactly what completeness depends on — and whether any bound guarantees it is still an open question (the paper's Exponent Conjecture). Capped too low, later iterations can silently find *zero* primes instead of erroring — a 13-iteration run capped at `max_exp=2` finds 0 new primes at iteration 12 (see [`publication/prime_synthesis_results_capped2_13iter.md`](publication/prime_synthesis_results_capped2_13iter.md)). The adaptive-schedule version in [`publication/`](publication) avoids this stall, though it isn't gap-free either (see above).
 
 **Ongoing work:** I've experimented with pruning the exponent search to just the subset likely to land inside the target window, instead of sweeping the full `1..E` range, to cut down on wasted candidates. The early results weren't consistent enough to trust yet, so that pruning isn't part of this repo's algorithm — it may show up here once it holds up.
 
