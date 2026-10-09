@@ -119,7 +119,7 @@ The sieve wins on every practical axis, and it isn't close — see *"The Combina
 
 **Ongoing work:** I've experimented with pruning the exponent search to just the subset likely to land inside the target window, instead of sweeping the full `1..E` range, to cut down on wasted candidates. The early results weren't consistent enough to trust yet, so that pruning isn't part of this repo's algorithm — it may show up here once it holds up.
 
-One simple way of reducing computations (present in early rough versions) is to apply the exponents to only one subset (of the binary partitions). 
+One simple way of reducing computations (present in early rough versions) is to apply the exponents to only one subset of each binary partition, leaving the other as a plain product. This shrinks the search per partition from `E^n` exponent vectors to `E^|left|`, and in practice it is dramatically faster: 7 iterations take ~2 seconds instead of ~21 minutes. The cost is completeness. That 7-iteration run is gap-free only up to 167 (vs. 199 for the full algorithm), and later iterations, capped or not, leave growing gaps above that. Code, a report generator, and results for several iteration counts and exponent caps are in [`publication/experiments/`](publication/experiments).
 
 ## Next Steps
 
