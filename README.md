@@ -115,7 +115,7 @@ In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) 
 | Every prime up to 199 | ~21 minutes | microseconds |
 | Good for | studying the structure of primes (e.g., how primes are born from their predecessors) | generating primes efficiently |
 
-The sieve wins on every practical axis, and it isn't close — see *"The Combinatorial Explosion: An Exponential Barrier"* in [the preprint](publication/A%20Useless%20Recipe%20for%20Primes.pdf).
+The sieve wins on every practical axis — see *"The Combinatorial Explosion: An Exponential Barrier"* in [the preprint](publication/A%20Useless%20Recipe%20for%20Primes.pdf).
 
 **A sharper limitation:** the per-language demos in this repo hard-code `max_exponent = 2` for speed and readability (see each language's README), but that bound is exactly what completeness depends on — and whether any bound guarantees it is still an open question (the paper's Exponent Conjecture). Capped too low, later iterations can silently find *zero* primes instead of erroring — a 13-iteration run capped at `max_exp=2` finds 0 new primes at iteration 12 (see [`publication/prime_synthesis_results_capped2_13iter.md`](publication/prime_synthesis_results_capped2_13iter.md)). The adaptive-schedule version in [`publication/`](publication) avoids this stall, though it isn't gap-free either (see above).
 
