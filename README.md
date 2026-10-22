@@ -94,7 +94,7 @@ PrimePartitionAlgorithm/
 ├── publication/
 │   ├── A Useless Recipe for Primes.pdf   # the preprint
 │   ├── demo/                             # demo gif + number line visualization
-│   ├── experiments/                      # left-only exponent variant + results
+│   ├── experiments/                      # left-only and meet-in-the-middle variants + results
 │   ├── prime_synthesis.py
 │   ├── PrimeSynthesis.kt
 │   └── prime_synthesis_results*.md       # run reports (adaptive + capped schedules)
@@ -122,6 +122,8 @@ The sieve wins on every practical axis — see *"The Combinatorial Explosion: An
 **Ongoing work:** A reasonable explorative path would be to try to identify patterns (if any) in the exponent combinations whose results land in the target window. I've experimented with pruning the exponent search to just the subset likely to land inside the target window, instead of sweeping the full `1..E` range, to cut down on wasted candidates. The early results weren't consistent enough to trust yet, so that pruning isn't part of this repo's algorithm — it may show up here once it holds up.
 
 One simple way of reducing computations (present in early rough versions) is to apply the exponents to only one subset of each binary partition, leaving the other as a plain product. This shrinks the search per partition from `E^n` exponent vectors to `E^|left|`, and in practice it is dramatically faster: 7 iterations take ~2 seconds instead of ~21 minutes. The cost is completeness. That 7-iteration run is gap-free only up to 167 (vs. 199 for the full algorithm), and later iterations, capped or not, leave growing gaps above that. Code, a report generator, and results for several iteration counts and exponent caps are in [`publication/experiments/`](publication/experiments).
+
+A faster route that gives up nothing is a meet-in-the-middle search, [`FulcrumTargetingMitm.kt`](publication/experiments/FulcrumTargetingMitm.kt). Once `max ≥ 13`, only differences can land in the window, and only when the two products are nearly equal. Each seed adds `±e·log p` to `log π_A − log π_B`, so the seeds can be split into two halves that are enumerated separately and matched on their log-ratios. Each match is confirmed exactly with integers. This produces exactly the same primes as the full algorithm, iteration for iteration, with no primality test: the 7-iteration run takes **0.15 seconds** instead of ~21 minutes, and 15 iterations with exponents capped at 5 take 34 seconds.
 
 
 
