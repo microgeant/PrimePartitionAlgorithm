@@ -14,6 +14,12 @@ within a small tolerance of log(N) / 2. That is a subset-sum on the weights f_p 
 solved meet-in-the-middle (2^(n/2) per half); each hit is checked exactly with integers.
 While seed sets are small (sums still possible), all 2^n splits are checked directly.
 
+Window: (m, g^2), not the paper's (m, m^2]. A candidate shares no factor with the seeds, so a
+composite one is at least q^2, q being the smallest prime missing from the seeds. g, the
+smallest n >= 2 that is neither a seed nor shares a factor with them, satisfies g <= q (q itself
+qualifies). With gap-free seeds g is the next prime after m, so the window grows past m^2; if a
+prime is ever skipped, g stays at it and the window shrinks instead of admitting composites.
+
 Usage: python3 prime_synthesis_excess.py [iterations] [log10_K]
 """
 import math
@@ -23,17 +29,25 @@ from bisect import bisect_left, bisect_right
 
 
 def smooth_numbers(primes, limit):
-    """All n <= limit built from `primes` (exponents >= 0), including 1."""
-    out = [1]
-    for p in primes:
-        grown = []
-        for n in out:
-            v = n * p
-            while v <= limit:
-                grown.append(v)
-                v *= p
-        out += grown
-    return out
+    """Yield every n <= limit built from `primes` (exponents >= 0), including 1 (iterative DFS)."""
+    stack = [(1, 0)]  # (n, index of the next prime allowed); primes taken in order, so no duplicates
+    while stack:
+        n, start = stack.pop()
+        yield n
+        for i in range(start, len(primes)):
+            v = n * primes[i]
+            if v <= limit:
+                stack.append((v, i))
+
+
+def window_top(seeds):
+    """Largest safe candidate, g^2 - 1 (see the module docstring)."""
+    prod = math.prod(seeds)
+    seed_set = set(seeds)
+    g = 2
+    while g in seed_set or math.gcd(g, prod) != 1:
+        g += 1
+    return g * g - 1
 
 
 def subset_products(powers):
@@ -48,7 +62,7 @@ def subset_products(powers):
 def splits_near_half(powers, n_total, lo, hi):
     """Window values |a - b| (and a + b) over splits of `powers` into a * b = n_total."""
     found = set()
-    if len(powers) <= 12:
+    if len(powers) <= 12 or 4 * n_total <= hi * hi:  # small, or sums can still land (AM-GM)
         for _, a in subset_products(powers):
             b = n_total // a
             for v in (a + b, abs(a - b)):
@@ -56,7 +70,7 @@ def splits_near_half(powers, n_total, lo, hi):
                     found.add(v)
         return found
 
-    # Differences only (sums can't reach the window this late). |a - b| <= hi with b = min(a, b)
+    # Differences only. |a - b| <= hi with b = min(a, b)
     # needs b * (b + hi) >= n_total, and then |log a - log b| <= hi / b.
     b_min = max(1, math.isqrt(n_total + hi * hi // 4) - hi // 2 - 1)
     tol = hi / b_min * (1 + 1e-9) + 1e-12
@@ -79,13 +93,19 @@ def splits_near_half(powers, n_total, lo, hi):
 def compute_primes(seeds, k_limit):
     """Window candidates over every seed-smooth excess k <= k_limit."""
     m = max(seeds)
-    lo, hi = m, m * m
+    lo, hi = m, window_top(seeds)
+    if hi <= lo:
+        return set()
     primes = [p for p in seeds if p != 1]  # 1 only keeps both sides non-empty
     if not primes:
         return set()
     prod = math.prod(primes)
     found = set()
-    for k in smooth_numbers(primes, k_limit):
+    last = time.perf_counter()
+    for count, k in enumerate(smooth_numbers(primes, k_limit), 1):
+        if time.perf_counter() - last > 600:  # long iterations: progress to stderr every 10 minutes
+            last = time.perf_counter()
+            print(f"  ... {count} k values done, {len(found)} found so far", file=sys.stderr, flush=True)
         n_total = prod * k
         powers = []
         for p in primes:
@@ -109,7 +129,8 @@ def main():
         t = time.perf_counter()
         found = sorted(compute_primes(current, k_limit))
         dt = time.perf_counter() - t
-        print(f"iter {i}: seeds={current} K=1e{log10_k} time={dt:.3f}s found={len(found)}: {found}", flush=True)
+        print(f"iter {i}: seeds={current} K=1e{log10_k} window=({max(current)}, {window_top(current)}] "
+              f"time={dt:.3f}s found={len(found)}: {found}", flush=True)
         current_set = set(current)
         pending.update(x for x in found if x not in current_set)
         if pending:
