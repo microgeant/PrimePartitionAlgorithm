@@ -26,9 +26,9 @@ import kotlin.math.ln
  *        java -jar sweep.jar [from_E] [to_E] [threads] [seeds, comma-separated]
  */
 
-private class Quarter(val primes: List<Long>, val maxExp: Int, val fixFirstSide: Boolean) {
-    /** Digit d < E: side A with e = d + 1; otherwise side B with e = d - E + 1. */
-    fun radix(i: Int) = if (fixFirstSide && i == 0) maxExp else 2 * maxExp
+private class Quarter(val primes: List<Long>, val maxExp: Int, val fixFirstSide: Boolean, val bExp: Int = maxExp) {
+    /** Digit d < E: side A with e = d + 1; otherwise side B with e = d - E + 1 (1..bExp). */
+    fun radix(i: Int) = if (fixFirstSide && i == 0) maxExp else maxExp + bExp
 
     val size = primes.indices.fold(1) { acc, i -> acc * radix(i) }
     val x = DoubleArray(size)
@@ -129,10 +129,13 @@ internal fun factorString(n: BigInteger, primes: List<Long>): String {
     return parts.joinToString("*").ifEmpty { "1" }
 }
 
-/** Differences in (lo, hi]; default window (m, m^2]. Also used by LeafRunsSynthesis.kt. */
+/**
+ * Differences in (lo, hi]; default window (m, m^2]. Side B takes exponents 1..bExp (bExp = 1: only
+ * side A is raised, as in the one-subset variant). Also used by LeafRunsSynthesis.kt.
+ */
 internal fun sweep(
     primes: List<Long>, maxExp: Int, threads: Int,
-    lo: BigInteger = BigInteger.valueOf(primes.max()), hi: BigInteger = lo.multiply(lo),
+    lo: BigInteger = BigInteger.valueOf(primes.max()), hi: BigInteger = lo.multiply(lo), bExp: Int = maxExp,
 ): Result {
     val prod = primes.fold(BigInteger.ONE) { acc, p -> acc.multiply(BigInteger.valueOf(p)) }
     require(prod.shiftLeft(2) > hi.multiply(hi)) { "sums can still land; use FulcrumTargetingMitm.kt" }
@@ -144,10 +147,11 @@ internal fun sweep(
     val c1 = (n + 3) / 4
     val c2 = (n + 1) / 2
     val c3 = (3 * n + 3) / 4
-    val q1 = Quarter(primes.subList(0, c1), maxExp, fixFirstSide = true) // a global side swap gives the same |a - b|
-    val q2 = Quarter(primes.subList(c1, c2), maxExp, false)
-    val q3 = Quarter(primes.subList(c2, c3), maxExp, false)
-    val q4 = Quarter(primes.subList(c3, n), maxExp, false)
+    // A global side swap gives the same |a - b|, but only if both sides take the same exponents.
+    val q1 = Quarter(primes.subList(0, c1), maxExp, fixFirstSide = bExp == maxExp, bExp)
+    val q2 = Quarter(primes.subList(c1, c2), maxExp, false, bExp)
+    val q3 = Quarter(primes.subList(c2, c3), maxExp, false, bExp)
+    val q4 = Quarter(primes.subList(c3, n), maxExp, false, bExp)
 
     val found = ConcurrentHashMap<BigInteger, String>()
     val pairs = AtomicLong()
