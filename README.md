@@ -21,7 +21,7 @@ A rough version of this technique was originally published [here](https://github
 Starting with a seed set (e.g., `{1, 2}`):
 
 1. **Partition** the set into two groups (all possible ways)
-2. **Exponentiate** elements (raise to powers 1–E; the paper grows E by 1 each iteration, the demos fix it at 2)
+2. **Exponentiate** elements (raise to powers 1–E; the paper grows E by 1 each iteration up to 5, the demos fix it at 2)
 3. **Multiply** within each group to get two products
 4. **Combine** via sum and absolute difference
 5. **Keep** candidates in the range `(max, max²]`
@@ -103,7 +103,7 @@ PrimePartitionAlgorithm/
 
 ![Complexity](publication/demo/complexity.gif)
 
-This is a constructive curiosity, not a practical prime generator. Each iteration partitions a seed set of size `n`, raises elements to exponents up to `E`, and filters every combination by range — roughly `2(2E)^n` candidates per step, giving a cumulative cost of `O(N · (2E)^N)` over `N` iterations. Every newly discovered prime makes the next one exponentially more expensive to find (the paper's "Price of Magic").
+This is a constructive curiosity, not a practical prime generator. Each iteration partitions a seed set of size `n`, raises elements to exponents up to `E`, and filters every combination by range — roughly `(2E)^n` candidates per step (counted with repetitions), giving a cumulative cost of `O(N · (2E)^N)` over `N` iterations. Every prime added to the seed set multiplies the cost of finding the next one by roughly `2E` (the paper's "Price of Magic").
 
 In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) (the full algorithm from the paper's Listing 1: exponents on both subsets, with an uncapped adaptive exponent schedule) takes **~21 minutes** across 7 iterations to synthesize every prime up to **199** (it reaches as high as 283, but misses 211 and 223) — over 20 of those minutes in the last iteration alone. A Sieve of Eratosthenes finds the same primes in well under a millisecond. Full numbers in [`publication/prime_synthesis_results.md`](publication/prime_synthesis_results.md).
 
@@ -115,7 +115,7 @@ In practice, [`publication/prime_synthesis.py`](publication/prime_synthesis.py) 
 
 The sieve wins on every practical axis — see *"The Combinatorial Explosion: An Exponential Barrier"* in [the preprint](publication/A%20Useless%20Recipe%20for%20Primes.pdf).
 
-**A sharper limitation:** the per-language demos hard-code `max_exponent = 2` for speed and readability, but completeness depends on that bound, and whether any bound guarantees it is an open question (the paper's Exponent Conjecture). Capped too low, later iterations silently find *zero* primes instead of erroring: a 13-iteration run capped at `max_exp=2` finds 0 new primes at iteration 12 ([`prime_synthesis_results_capped2_13iter.md`](publication/prime_synthesis_results_capped2_13iter.md)). The adaptive schedule avoids this stall, though it isn't gap-free either.
+**A sharper limitation:** the per-language demos hard-code `max_exponent = 2` for speed and readability, but completeness depends on that bound, and whether any bound guarantees it is an open question (the paper's Exponent Question). Capped too low, later iterations silently find *zero* primes instead of erroring: a 13-iteration run capped at `max_exp=2` finds 0 new primes at iteration 12 ([`prime_synthesis_results_capped2_13iter.md`](publication/prime_synthesis_results_capped2_13iter.md)). The adaptive schedule avoids this stall, though it isn't gap-free either.
 
 ## Experiments
 
@@ -145,7 +145,8 @@ The sieve wins on every practical axis — see *"The Combinatorial Explosion: An
 
 ## Open Questions
 
-- **The Exponent Conjecture:** does some exponent bound guarantee that every prime is eventually found?
+- **The Exponent Question:** is there a schedule of exponent bounds `E(k)` such that, at every iteration, the prime right after the current `max` has already been found? That is all the no-composite guarantee needs. A stronger form asks whether every prime is eventually found; a prime `p` can only be found in an iteration with `max < p ≤ max²`.
+- **Targeted search:** for a given partition, can the exponents that land a candidate inside the window be determined directly, without enumerating all `Eⁿ` combinations? Meet in the middle (see [Experiments](#experiments)) cuts the enumeration from `(2E)^n` to `(2E)^(n/2)`, but it still enumerates.
 - **The wall at 541:** can a missing prime such as 541 be built at all as π_A − π_B from the seeds below it, and with what exponents? This is an S-unit equation (`x − y = q` with `x`, `y` built from a fixed set of primes), for which LLL-based methods (de Weger) bound the exponents of every solution. With one extra prime it can: the leaf searches build 541 from the seeds up to 29 and 149, with exponents at most 5; with two, every prime up to 1697 is built from the seeds up to 43, with exponents at most 3. Whether a fixed number of extra primes always suffices is the open form of the question.
 - **Wider safe windows:** coprimality alone guarantees primality up to `g²`, where `g` is the smallest prime missing from the seeds, which goes beyond `max²` (used by `prime_synthesis_excess.py`; `g` is found with one gcd per tried value, so still no primality test). A quadratic-residue condition (every prime factor `r` of `π_A − π_B` has `π_A·π_B` as a square mod `r`) may push it further, still without a primality test.
 
